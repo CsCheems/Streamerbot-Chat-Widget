@@ -90,9 +90,9 @@ async function ChatMessage(data){
     }
 
     //VERIFICAMOS SI EL USUARIO ES IGNORADO//
-    /*if(ignoredUsers.includes(usuario)){
+    if(ignoredUsers.includes(usuario)){
         return;
-    }*/
+    }
 
     //ASIGNAR AVATAR//
     if(!avatarHashMap.has(usuario)){
