@@ -1,10 +1,11 @@
 //PARAMETROS//
 const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
-const StreamerbotPort = urlParameters.get('port') || '8080';
-const StreamerbotAddress = urlParameters.get('address') || '127.0.0.1';
+console.log(urlParameters);
+const StreamerbotPort = urlParameters.get('portInput') || '8080';
+const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
 const minRole = 3;
-const maxMessages = 40;
+const maxMessages = 30;
 let totalMessages = 0;
 let ultimoUsuario = '';
 const avatarHashMap = new Map();
@@ -23,16 +24,17 @@ const client = new StreamerbotClient({
 });
 
 //VALIDADORES//
-const showAvatar = true;
-const showTimestamp = true;
-const showBadges = true;
-const showImages = false;
-const fontSize = "20px";
-const showRedeemMessages = false;
-const showCheerMessages = false;
-const showRaidMessage = false;
-const showGiantEmotes = false;
-
+const showAvatar = obtenerBooleanos("mostarAvatar", true);
+const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
+const showBadges = obtenerBooleanos("mostrarInsigneas", true);
+const showImages = obtenerBooleanos("mostrarImagenes", true);
+const fontSize = urlParameters.get("tamañoFuente") || "20";
+const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
+const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
+const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
+const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
+const excludeCommands = obtenerBooleanos("excluirComandos", true);
+const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 
 //EVENTOS//
 client.on('Twitch.ChatMessage', (response) => {
@@ -81,6 +83,16 @@ async function ChatMessage(data){
     let badges = '';
     let avatarImageUrl = '';
     let timestamp= '';
+    
+    //VERIFICAMOS SI LOS COMANDOS SON EXCLUIDOS//
+    if(data.message.message.startsWith("!") && excludeCommands){
+        return;
+    }
+
+    //VERIFICAMOS SI EL USUARIO ES IGNORADO//
+    /*if(ignoredUsers.includes(usuario)){
+        return;
+    }*/
 
     //ASIGNAR AVATAR//
     if(!avatarHashMap.has(usuario)){
@@ -155,7 +167,7 @@ async function ChatMessage(data){
                         ${badges}
                         <span id="usuario">${usuario}:</span>
                     </div>
-                    <span id="user-message" style="font-size: ${fontSize}">${message}</span>
+                    <span id="user-message" style="font-size: ${fontSize}px">${message}</span>
                 </div>
             </div>
         `;
@@ -163,7 +175,7 @@ async function ChatMessage(data){
         element = `
             <div data-sender="${uid}" data-msgid="${msgId}" class="message-row animated" id="msg-${totalMessages}">
                 <div id="message-box">
-                    <span id="user-message" style="font-size: ${fontSize}">${message}</span>
+                    <span id="user-message" style="font-size: ${fontSize}px">${message}</span>
                 </div>
             </div>
         `
@@ -508,6 +520,26 @@ async function obtenerAvatar(username){
     let response = await fetch('https://decapi.me/twitch/avatar/'+username);
     let data = await response.text();
     return data;
+}
+
+function obtenerBooleanos(parametro, valor){
+    const urlParams = new URLSearchParams(window.location.search);
+
+    console.log(urlParams);
+
+    const valorParametro = urlParams.get(parametro);
+
+    if(valorParametro === null){
+        return valor;
+    }
+
+    if(valorParametro === 'true'){
+        return true;
+    }else if(valorParametro === 'false'){
+        return false;
+    }else{
+        return valor;
+    }
 }
 
 //ESTADO DE CONEXION A STREAMERBOT//

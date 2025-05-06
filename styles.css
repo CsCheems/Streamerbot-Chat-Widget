@@ -34,10 +34,8 @@
 	overflow-y: hidden;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
-	padding: 20px;
+	padding: 10px;
 }
-
-
 
 #centered-box {
 	display: flex;
