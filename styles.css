@@ -3,6 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Cal+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Cal+Sans&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
+body{
+	background-color: rgba(0, 0, 0, 0.85);
+}
+
 #status-container {
 	text-transform: uppercase;
 	font-family: "Cal Sans", sans-serif;
@@ -29,22 +33,12 @@
 	display: flex;
 	flex-direction: column-reverse;
 	align-items: center;
-	height: 1080px;
-	max-height: 100%;
+	height: 100%;
 	overflow-y: hidden;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
 	padding: 10px;
-}
-
-#centered-box {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-align: center;
-	height: 100%;
-	width: 100%;
+	
 }
 
 #message-box {

@@ -1,7 +1,6 @@
 //PARAMETROS//
 const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
-console.log(urlParameters);
 const StreamerbotPort = urlParameters.get('portInput') || '8080';
 const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
 const minRole = 3;
@@ -28,6 +27,7 @@ const showAvatar = obtenerBooleanos("mostarAvatar", true);
 const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
 const showBadges = obtenerBooleanos("mostrarInsigneas", true);
 const showImages = obtenerBooleanos("mostrarImagenes", true);
+const rolUsuario = urlParameters.get("rolesId") || "4";
 const fontSize = urlParameters.get("tamañoFuente") || "20";
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
@@ -42,11 +42,15 @@ client.on('Twitch.ChatMessage', (response) => {
 })
 
 client.on('Twitch.Cheer', (response) => {
-    Cheer(response.data);
+    if(showCheerMessages){
+        Cheer(response.data);
+    }
 })
 
 client.on('Twitch.Raid', (response) => {
-    Raid(response.data);
+    if(showRaidMessage){
+        Raid(response.data);
+    }
 })
 
 client.on('Twitch.RewardRedemption', (response)=> {
@@ -127,11 +131,14 @@ async function ChatMessage(data){
     //OBTENCION DE EMOTES//
     message = agregarEmotes(message);
 
+    console.log("ROLE: ", role);
+    console.log("ROLE ID: ", rolUsuario);
+
     //REGEX PARA IMAGENES//
     const imgRegex = /^https:\/\/.*\.(gif|png|jpg|jpeg|webp)$/;
     const imgMatch = message.match(imgRegex);
-
-    if (imgMatch && role >= minRole && showImages) {
+        //true && 1 >= 0 && 0 != 0 && true
+    if (imgMatch && role >= rolUsuario && rolUsuario != 0 && showImages) {
             const imgSrc = imgMatch[0];
             const imgTag = `<img src="${imgSrc}" alt="Image" id="imgur-image" />`;
             message = message.replace(imgMatch[0], imgTag);
@@ -206,157 +213,7 @@ async function ChatMessage(data){
     });
 }
 
-//MENSAJE DE CHEER (TWITCH)//
-/*async function Cheer(data) {
-    console.log(data);
-    //ASIGNACION DE VALORES OBTENIDOS DEL DATA//
-    const usuario = data.message.username;
-    const cantidad = data.message.bits;
-    let avatarImageUrl = '';
 
-    if(!avatarHashMap.has(usuario)){
-        try{
-            const avatarUrl = await obtenerAvatar(usuario);
-            avatarHashMap.set(usuario, avatarUrl);
-        }catch(e){
-            avatarHashMap.set(usuario, "default-avatar-url.png");
-        }
-    }
-    const avatarUrl = avatarHashMap.get(usuario);
-    avatarImageUrl = `<img src="${avatarUrl}" id="avatar"/>`;
-
-    totalMessages += 1;
-
-    if(cantidad === 1){
-        const element = `
-        <div class="message-row animated" id="msg-${totalMessages}">
-            <div id="message-box centered-box">
-                <div id="message-box" style="height=200px">
-                    ${avatarImageUrl}
-                    <span id="cheer-box">${usuario} ha soltado ${cantidad} bit</span>
-                </div>
-            </div>
-        </div>
-    `;
-    }else{const element= `
-        <div class="message-row animated" id="msg-${totalMessages}">
-            <div id="message-box centered-box">
-                <div id="message-box" style="height=200px">
-                    ${avatarImageUrl}
-                    <span id="cheer-box">${usuario} ha soltado ${cantidad} bits</span>
-                </div>
-            </div>
-        </div>
-    `;
-    }
-
-    $('.main-container').prepend(element);
-
-    const msgBox = document.querySelector(`#msg-${totalMessages} .message-box`);
-    if (msgBox) {
-        msgBox.style.background = `
-        linear-gradient(
-            to right,
-            #462523 0,
-            #cb9b51 22%, 
-            #f6e27a 45%,
-            #f6f2c0 50%,
-            #f6e27a 55%,
-            #cb9b51 78%,
-            #462523 100%
-        )
-        `;
-    }
-
-    gsap.fromTo(`#msg-${totalMessages}`,
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-    );
-
-    document.querySelectorAll(".main-container .message-row").forEach((el, i) => {
-        if (i >= maxMessages) {
-          gsap.timeline().to(el, { opacity: 0 }).add(() => {
-            el.remove();
-          });
-        }
-    });
-}*/
-
-//MENSAJE DE RAID (TWITCH)//
-/*async function Raid(data) {
-    console.log("RAID: ", data);
-    //ASIGNACION DE VALORES OBTENIDOS DEL DATA//
-    const cantidad = data.viewerCount;
-    const usuario = data.userName;
-    let avatarImageUrl = '';
-
-    if(!avatarHashMap.has(usuario)){
-        try{
-            const avatarUrl = await obtenerAvatar(usuario);
-            avatarHashMap.set(usuario, avatarUrl);
-        }catch(e){
-            avatarHashMap.set(usuario, "default-avatar-url.png");
-        }
-    }
-    const avatarUrl = avatarHashMap.get(usuario);
-    avatarImageUrl = `<img src="${avatarUrl}" id="avatar"/>`;
-
-    totalMessages += 1;
-
-    if(cantidad === 1){
-        const element = `
-        <div class="message-row animated" id="msg-${totalMessages}">
-            <div id="message-box centered-box">
-                <div id="message-box" style="height=200px">
-                    ${avatarImageUrl}
-                    <span id="raid-box">${usuario} ha raideado con ${cantidad} personita</span>
-                </div>
-            </div>
-        </div>
-    `;
-    }else{const element= `
-        <div class="message-row animated" id="msg-${totalMessages}">
-            <div id="message-box centered-box">
-                <div id="message-box" style="height=200px">
-                    ${avatarImageUrl}
-                    <span id="raid-box">${usuario} ha raideado con ${cantidad} personitas</span>
-                </div>
-            </div>
-        </div>
-    `;
-    }
-
-    $('.main-container').prepend(element);
-
-    const msgBox = document.querySelector(`#msg-${totalMessages} .message-box`);
-    if (msgBox) {
-        msgBox.style.background = `
-        linear-gradient(
-            to right,
-            #3B2626 0%,
-            #D4111E 22%, 
-            #EA7177 45%,
-            #FFC9C9 50%,
-            #EA7177 55%,
-            #D4111E 78%,
-            #3B2626 100%
-        )
-        `;
-    }
-
-    gsap.fromTo(`#msg-${totalMessages}`,
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-    );
-
-    document.querySelectorAll(".main-container .message-row").forEach((el, i) => {
-        if (i >= maxMessages) {
-          gsap.timeline().to(el, { opacity: 0 }).add(() => {
-            el.remove();
-          });
-        }
-    });
-}*/
 
 //REWARD REDEMPTIONS//
 async function RewardRedemption(data) {
@@ -382,11 +239,9 @@ async function RewardRedemption(data) {
 
     const element = `
         <div class="message-row animated" id="msg-${totalMessages}">
-            <div id="message-box centered-box">
                 <div id="message-box">
                     <span id="redeem-box">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
                 </div>
-            </div>
         </div>
     `;
 
