@@ -223,6 +223,7 @@ async function RewardRedemption(data) {
     const recompensa = data.reward.title;
     const costo = data.reward.cost;
     let avatarImageUrl = '';
+    ultimoUsuario = "";
 
     if(!avatarHashMap.has(usuario)){
         try{
