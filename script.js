@@ -238,9 +238,9 @@ async function RewardRedemption(data) {
     totalMessages += 1;
 
     const element = `
-        <div class="message-row animated" id="msg-${totalMessages}">
-                <div id="message-box">
-                    <span id="redeem-box">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
+        <div class="redeem-row animated" id="msg-${totalMessages}">
+                <div class="redeem .received">
+                    <span class="redeem-message" style="font-size: ${fontSize}px">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
                 </div>
         </div>
     `;
