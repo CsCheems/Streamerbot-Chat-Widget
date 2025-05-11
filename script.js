@@ -36,6 +36,9 @@ const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
+const isHighlighted = obtenerBooleanos("mostrarDestacado", true);
+
+console.log(isHighlighted);
 
 
 //EVENTOS//
@@ -193,7 +196,9 @@ async function ChatMessage(data){
 
     $('.main-container').prepend(element);
 
-    if(destacado && showHighlight === true){
+    console.log(isHighlighted);
+
+    if(destacado && isHighlighted){
         let msgDestacado = document.querySelector(`#msg-${totalMessages}`);
         msgDestacado.classList.add("destacado");
     }
@@ -302,8 +307,6 @@ async function AutomaticReward(data){
             }else return key;
         }
     );
-
-    console.log(text);
 
     totalMessages += 1;
 
