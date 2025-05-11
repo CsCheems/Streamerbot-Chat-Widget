@@ -30,11 +30,13 @@ const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const fontSize = urlParameters.get("tamañoFuente") || "20";
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
+const showHighlight = urlParameters.get("mostrarDestacado", true);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
 const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
+
 
 //EVENTOS//
 client.on('Twitch.ChatMessage', (response) => {
@@ -87,6 +89,7 @@ async function ChatMessage(data){
     let badges = '';
     let avatarImageUrl = '';
     let timestamp= '';
+    const destacado = data.message.isHighlighted;
     
     //VERIFICAMOS SI LOS COMANDOS SON EXCLUIDOS//
     if(data.message.message.startsWith("!") && excludeCommands){
@@ -190,6 +193,11 @@ async function ChatMessage(data){
 
     $('.main-container').prepend(element);
 
+    if(destacado && showHighlight === true){
+        let msgDestacado = document.querySelector(`#msg-${totalMessages}`);
+        msgDestacado.classList.add("destacado");
+    }
+
     gsap.fromTo(`#msg-${totalMessages}`,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
@@ -223,6 +231,7 @@ async function RewardRedemption(data) {
     const recompensa = data.reward.title;
     const costo = data.reward.cost;
     let avatarImageUrl = '';
+    ultimoUsuario = "";
 
     if(!avatarHashMap.has(usuario)){
         try{
@@ -238,9 +247,9 @@ async function RewardRedemption(data) {
     totalMessages += 1;
 
     const element = `
-        <div class="message-row animated" id="msg-${totalMessages}">
-                <div id="message-box">
-                    <span id="redeem-box">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
+        <div class="redeem-row animated" id="msg-${totalMessages}">
+                <div class="redeem .received">
+                    <span class="redeem-message" style="font-size: ${fontSize}px">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
                 </div>
         </div>
     `;
