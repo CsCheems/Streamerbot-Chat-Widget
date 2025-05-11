@@ -30,12 +30,13 @@ const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const fontSize = urlParameters.get("tamañoFuente") || "20";
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
+const showHighlight = urlParameters.get("mostrarDestacado", true);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
 const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
-const showHighlight = urlParameters.get("mostrarDestacado", true);
+
 
 //EVENTOS//
 client.on('Twitch.ChatMessage', (response) => {
@@ -192,7 +193,7 @@ async function ChatMessage(data){
 
     $('.main-container').prepend(element);
 
-    if(destacado && showHighlight === true){
+    if(destacado && showHighlight == true){
         let msgDestacado = document.querySelector(`#msg-${totalMessages}`);
         msgDestacado.classList.add("destacado");
     }
