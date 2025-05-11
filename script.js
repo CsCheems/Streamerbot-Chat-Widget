@@ -35,6 +35,7 @@ const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
+const showHighlight = urlParameters.get("mostrarDestacado", true);
 
 //EVENTOS//
 client.on('Twitch.ChatMessage', (response) => {
@@ -87,6 +88,7 @@ async function ChatMessage(data){
     let badges = '';
     let avatarImageUrl = '';
     let timestamp= '';
+    const destacado = data.message.isHighlighted;
     
     //VERIFICAMOS SI LOS COMANDOS SON EXCLUIDOS//
     if(data.message.message.startsWith("!") && excludeCommands){
@@ -189,6 +191,11 @@ async function ChatMessage(data){
     }
 
     $('.main-container').prepend(element);
+
+    if(destacado && showHighlight === true){
+        let msgDestacado = document.querySelector(`#msg-${totalMessages}`);
+        msgDestacado.classList.add("destacado");
+    }
 
     gsap.fromTo(`#msg-${totalMessages}`,
         { y: 30, opacity: 0 },
