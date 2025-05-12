@@ -36,9 +36,21 @@ const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
-const isHighlighted = obtenerBooleanos("mostrarDestacado", true);
+const colorFondo = urlParameters.get("fondoColor") || "#000000";
+const opacity = urlParameters.get("opacidad") || 0.75;
 
-console.log(isHighlighted);
+const body = document.body;
+const hexToRgb = (hex) => {
+  const cleanHex = hex.replace("#", "");
+  const bigint = parseInt(cleanHex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return { r, g, b };
+};
+
+const { r, g, b } = hexToRgb(colorFondo);
+body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;;
 
 
 //EVENTOS//
@@ -196,9 +208,7 @@ async function ChatMessage(data){
 
     $('.main-container').prepend(element);
 
-    console.log(isHighlighted);
-
-    if(destacado && isHighlighted){
+    if(destacado && showHighlight == true){
         let msgDestacado = document.querySelector(`#msg-${totalMessages}`);
         msgDestacado.classList.add("destacado");
     }
@@ -307,6 +317,8 @@ async function AutomaticReward(data){
             }else return key;
         }
     );
+
+    console.log(text);
 
     totalMessages += 1;
 
