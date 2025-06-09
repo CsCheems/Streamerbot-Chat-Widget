@@ -40,7 +40,7 @@ const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0;
 const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
 let tiempoMs = urlParameters.get("tiempoMs") || 0;
-const agruparMensajesConsecutivos = obtenerBooleanos("mensajesConsecutivos", true); 
+const agruparMensajesConsecutivos = obtenerBooleanos("mensajesAgrupados", true); 
 
 tiempoMs *= 1000; 
 
