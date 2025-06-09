@@ -29,15 +29,20 @@ const showBadges = obtenerBooleanos("mostrarInsigneas", true);
 const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const fontSize = urlParameters.get("tamañoFuente") || "20";
-const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
-const showHighlight = obtenerBooleanos("mostrarDestacado", true);
-const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
-const showRaidMessage = obtenerBooleanos("mostrarRaids", true);
-const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
+const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
+const showHighlight = obtenerBooleanos("mostrarDestacado", false);
+const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
+const showRaidMessage = obtenerBooleanos("mostrarRaids", false);
+const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
-const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
+const ignoredUsers = urlParameters.get("usuariosIgnorados") || "DesempleadoCheems";
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
-const opacity = urlParameters.get("opacidad") || 0.75;
+const opacity = urlParameters.get("opacidad") || 0;
+const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
+let tiempoMs = urlParameters.get("tiempoMs") || 0;
+const agruparMensajesConsecutivos = obtenerBooleanos("mensajesConsecutivos", true); 
+
+tiempoMs *= 1000; 
 
 const body = document.body;
 const hexToRgb = (hex) => {
@@ -160,8 +165,6 @@ async function ChatMessage(data){
         console.log("No cuenta con el permiso necesario o no es imagen");
     }
 
-    
-
     //TIMESTAMP//
     const now = new Date();
     const horas = String(now.getHours()).padStart(2, '0');
@@ -173,11 +176,10 @@ async function ChatMessage(data){
         timestamp = `<span id="time" style="display: none">${time}</span>`;
     }
     
-
     totalMessages += 1;
 
     //MENSAJE ARMADO//
-    if(ultimoUsuario !== usuario){
+    if(ultimoUsuario !== usuario || agruparMensajesConsecutivos){
         ultimoUsuario = usuario;
         element = `
             <div data-sender="${uid}" data-msgid="${msgId}" class="message-row animated" id="msg-${totalMessages}">
@@ -188,7 +190,7 @@ async function ChatMessage(data){
                         ${badges}
                         <span id="usuario">${usuario}:</span>
                     </div>
-                    <span id="user-message" style="font-size: ${fontSize}px">${message}</span>
+                    <span id="user-message" style="font-size: ${fontSize}px; font-family: ${fuenteLetra}">${message}</span>
                 </div>
             </div>
         `;
@@ -196,7 +198,7 @@ async function ChatMessage(data){
         element = `
             <div data-sender="${uid}" data-msgid="${msgId}" class="message-row animated" id="msg-${totalMessages}">
                 <div id="message-box">
-                    <span id="user-message" style="font-size: ${fontSize}px">${message}</span>
+                    <span id="user-message" style="font-size: ${fontSize}px; font-family: ${fuenteLetra}">${message}</span>
                 </div>
             </div>
         `
@@ -211,7 +213,7 @@ async function ChatMessage(data){
 
     gsap.fromTo(`#msg-${totalMessages}`,
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
+        { y: 0, opacity: 1, duration: 0.4, ease: "power2.inOut" }
     );
     
     const allMessages = document.querySelectorAll('.main-container .message-row');
@@ -220,7 +222,7 @@ async function ChatMessage(data){
         y: -20, 
         stagger: 1, 
         duration: 1,
-        ease: "power2.out"
+        ease: "power2.inOut"
     });
 
     document.querySelectorAll(".main-container .message-row").forEach((el, i) => {
@@ -228,6 +230,16 @@ async function ChatMessage(data){
           gsap.timeline().to(el, { opacity: 0 }).add(() => {
             el.remove();
           });
+        }else{
+            if(tiempoMs > 0){
+                setTimeout(() =>{
+                    gsap.to(el, {
+                        opacity: 0,
+                        duration: 0.5,
+                        onComplete: () => el.remove()
+                    });
+                }, tiempoMs);
+            }
         }
     });
 }
@@ -260,7 +272,7 @@ async function RewardRedemption(data) {
     const element = `
         <div class="redeem-row animated" id="msg-${totalMessages}">
                 <div class="redeem .received">
-                    <span class="redeem-message" style="font-size: ${fontSize}px">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
+                    <span class="redeem-message" style="font-size: ${fontSize}px ; font-family: ${fuenteLetra}">${avatarImageUrl}<br>${usuario} ha canjeado ${recompensa}</span>
                 </div>
         </div>
     `;

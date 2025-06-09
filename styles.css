@@ -105,7 +105,6 @@ body{
 }
 
 #user-message{
-	font-family: "Open Sans", sans-serif;
 	color: #fff;
 	width: 100%;
 	text-shadow: rgb(0, 0, 0) 1px 1px 1px;
@@ -140,11 +139,11 @@ body{
 	overflow-wrap: break-word;
 }
 
-#imgur-image {
+.imgur-image {
 	max-width: 75%;
 	max-height: 300px;
-	width: auto;
-	height: auto;
+	width: 100%;
+	height: 100%;
 	border-radius: 8px;
 	margin-top: 5px;
 	object-fit: contain;
@@ -182,7 +181,6 @@ body{
 }
 
 .redeem-message{
-	font-family: "Open Sans", sans-serif;
     color: #fff;
 	padding: 4px;
 }
