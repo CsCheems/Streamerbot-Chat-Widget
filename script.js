@@ -179,7 +179,7 @@ async function ChatMessage(data){
     totalMessages += 1;
 
     //MENSAJE ARMADO//
-    if(ultimoUsuario !== usuario || agruparMensajesConsecutivos){
+    if(ultimoUsuario !== usuario || !agruparMensajesConsecutivos){
         ultimoUsuario = usuario;
         element = `
             <div data-sender="${uid}" data-msgid="${msgId}" class="message-row animated" id="msg-${totalMessages}">
