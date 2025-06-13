@@ -139,7 +139,7 @@ body{
 	overflow-wrap: break-word;
 }
 
-.imgur-image {
+#imgur-image {
 	max-width: 75%;
 	max-height: 300px;
 	width: 100%;
