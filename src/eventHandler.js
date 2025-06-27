@@ -3,7 +3,7 @@ import { obtenerAvatar, agregarEmotes } from "./utils";
 import { showAvatar, showTimestamp, showBadges, showImages, 
     rolUsuario, fontSize, showRedeemMessages, showHighlight, 
     showCheerMessages, showRaidMessage, showGiantEmotes, excludeCommands,
-    ignoredUsers} from "./constantes";
+    ignoredUsers, maxMessages, totalMessages, ultimoUsuario, avatarHashMap} from "./constantes";
 
 
 
