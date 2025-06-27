@@ -3,15 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
     <link rel="stylesheet" href="./styles.css"/>
     <script src="https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.12.0/js/md5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.0/gsap.min.js" crossorigin="anonymous"></script>
-    <title>Chat Overlay v0.6</title>
 </head>
 <body>
-    <div id="status-container">CONECTANDO...</div>
-    <div class="main-container"></div> 
+    <div id="status-container">STREAMERBOT DESCONECTADO...</div>
+    <div id="mainContainer" class="slideIn">
+        <ul id="listaMensajes">
+        </ul>
+        <div id="esteDivEsParaQuePuedaCalcularQueTanGrandePuedeSerCadaMensajeAntesDeQueSeaAgregadoAlaListaxd">
+        </div>
+    </div>
+
+    <template id="plantillaMensaje">
+		<div id="mensajeContenedor">
+			<label>
+				<div id="primerMensaje">
+					<span>👋Primer Mensaje en el Chat</span>
+				</div>
+				<div id="chatCompartido">
+					<span id="chatCompartidoCanal"></span>
+				</div>
+				<label id="user-info">
+					<span id="avatar"></span>
+					<span id="timestamp"></span>
+                    <span id="username"></span>
+					<span id="badges"></span>
+					<br id="line-space">
+				</label>
+				<div id="respuesta">
+					<span>➥ Respondiendo a <span id="respuestaUsuario"></span>: <span id="respMsg"></span></span>
+				</div>
+				<span id="mensaje"></span>
+			</label>
+		</div>
+		
+	</template>
+
+	<template id="plantillaReward">
+		<div id="rewardContenedor">
+			<label>
+				<div id="bodyReward">
+					<div id="avatarContainer">
+						<span id="avatar"></span>
+					</div>
+					<div id="rewardContainer">
+						<span id="reward"></span>
+					</div>
+				</div>
+			</label>
+		</div>
+	</template>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="script.js"></script>
