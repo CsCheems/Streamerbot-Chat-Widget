@@ -44,8 +44,8 @@ let tiempoMs = urlParameters.get("tiempoMs") || 0;
 
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
 
-
-
+document.documentElement.style.fontFamily = fuenteLetra;
+document.documentElement.style.fontSize = fontSize;
 
 tiempoMs *= 1000; 
 
