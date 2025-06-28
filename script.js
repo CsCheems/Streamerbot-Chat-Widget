@@ -312,6 +312,8 @@ async function RecompensaChat(data) {
 	const siguienteMensaje = document.createElement("li");
 	siguienteMensaje.id = rewardId;
 	siguienteMensaje.dataset.uid = uid;
+    siguienteMensaje.style.marginTop= "5xp";
+    siguienteMensaje.style.marginBottom= "5xp";
 
 	// Mover contenido de tempDiv al li
 	while (tempDiv.firstChild) {
