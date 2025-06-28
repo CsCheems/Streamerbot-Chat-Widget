@@ -25,8 +25,8 @@ const showRaidMessage = obtenerBooleanos("mostrarRaids", false);
 //GIFTED SUBS
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
-const fuenteLetra = urlParameters.get("fuenteLetra" || "consolas");
-let fontSize = urlParameters.get("tamanoFuente") || "20";
+const fuenteLetra = urlParameters.get("fuenteLetra" || "Consolas");
+let fontSize = urlParameters.get("tamanoFuente") || "38";
 fontSize = parseInt(fontSize, 10);
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 const StreamerbotPort = urlParameters.get('portInput') || '8080';
