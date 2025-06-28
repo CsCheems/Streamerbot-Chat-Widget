@@ -15,7 +15,7 @@ const showBadges = obtenerBooleanos("mostrarInsigneas", true);
 const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
-let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
+let ocultarDespuesDe = urlParameters.get("tiempoMs") || 10;
 ocultarDespuesDe *= 1000; 
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
 const destacado = obtenerBooleanos("mostrarDestacado", false);
@@ -265,7 +265,7 @@ async function MensajeChat(data) {
 			setTimeout(() => {
 				listaMensajes.removeChild(siguienteMensaje);
 			}, 1000);
-		}, ocultarDespuesDe * 1000);
+		}, ocultarDespuesDe);
 	}
 }
 
