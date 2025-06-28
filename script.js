@@ -41,11 +41,7 @@ const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0.75;
 const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
 let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
-
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
-
-document.documentElement.style.fontFamily = fuenteLetra;
-document.documentElement.style.fontSize = fontSize;
 
 ocultarDespuesDe *= 1000; 
 
@@ -159,12 +155,16 @@ async function MensajeChat(data) {
 	if (showUsername) {
 		usuarioDiv.innerText = usuario;
 		usuarioDiv.style.color = color;
+        usuarioDiv.style.fontFamily = fuenteLetra;
 	}
 
 	// Mostrar mensaje
 	mensajeDiv.innerHTML = html_encode(mensaje);
+    mensajeDiv.style.fontFamily = fuenteLetra;
+    mensajeDiv.style.fontSize = fontSize;
 
 	if (usuario === "ChemitaDev") mensajeDiv.style.color = "#3BE477";
+
 
 	if (showBadges) {
 		badgesDiv.innerHTML = "";
