@@ -248,7 +248,7 @@ async function MensajeChat(data) {
 	tempDiv.innerHTML = '';
 
 	// Ocultar después de cierto tiempo
-	if (ocultarDespuesDe && ocultarDespuesDe > 0) {
+	if (ocultarDespuesDe > 0) {
 		setTimeout(() => {
 			siguienteMensaje.style.opacity = 0;
 			setTimeout(() => {
@@ -325,7 +325,7 @@ async function RecompensaChat(data) {
 	tempDiv.innerHTML = '';
 
 	// Ocultar después de cierto tiempo
-	if (ocultarDespuesDe && ocultarDespuesDe > 0) {
+	if (ocultarDespuesDe > 0) {
 		setTimeout(() => {
 			siguienteMensaje.style.opacity = 0;
 			setTimeout(() => {
