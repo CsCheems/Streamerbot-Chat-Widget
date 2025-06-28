@@ -43,13 +43,11 @@ html {
 
 #rewardContenedor {
 	padding: 10px;
-	border-radius: 8px;
-
 }
 
 #mensajeContenedor{
 	padding: 10px;
-	border-radius: 8px;
+	border-radius: 8px 0 8px 0;
 }
 
 #listaMensajes {
@@ -63,10 +61,8 @@ html {
 }
 
 li {
-	
 	list-style: none;
 	overflow: hidden;
-	height: 0;
 	transition: all 1s ease-in-out;
 }
 
