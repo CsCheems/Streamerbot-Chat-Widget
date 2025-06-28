@@ -301,6 +301,8 @@ async function RecompensaChat(data) {
 	}
 
 	// Contenido del mensaje
+    usuarioDiv.style.fontFamily = fuenteLetra;
+    usuarioDiv.style.fontSize ="28px";
 	usuarioDiv.innerHTML = `${usuario} ha canjeado ${titulo} <img id="channel_point" src="./icon/channel-point.png"/> ${costo}`;
 
 	// Medir altura en tempDiv
