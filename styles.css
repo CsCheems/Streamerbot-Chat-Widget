@@ -16,7 +16,6 @@ html {
 	width: 100vw;
 	height: 100vh;
 	scroll-behavior: smooth;
-	font-size: 26px;
 	color: white;
 	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 	overflow-wrap: break-word;
