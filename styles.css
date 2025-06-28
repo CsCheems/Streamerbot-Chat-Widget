@@ -6,8 +6,6 @@
 	--line-spacing: 1em;
 }
 
-
-
 body {
 	overflow: hidden;
 }
@@ -45,7 +43,7 @@ html {
 #rewardContenedor {
 	padding: 10px;
 	border-radius: 8px;
-	
+
 }
 
 #mensajeContenedor{
@@ -143,6 +141,7 @@ li {
 	transform: translate(0px, 0.4em);
 }
 
+
 .productImage {
 	height: 15em;
 	border-radius: 0.25em;
@@ -188,3 +187,4 @@ li {
 	flex-direction: row;
 	align-items: center;
 }
+

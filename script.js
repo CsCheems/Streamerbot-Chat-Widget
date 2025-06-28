@@ -41,10 +41,12 @@ const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0.75;
 const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
 let tiempoMs = urlParameters.get("tiempoMs") || 0;
+
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
 
 document.documentElement.style.fontFamily = fuenteLetra;
 document.documentElement.style.fontSize = fontSize;
+
 
 tiempoMs *= 1000; 
 
@@ -69,13 +71,16 @@ client.on('Twitch.ChatMessage', (response) => {
     MensajeChat(response.data);
 })
 
+
 client.on('Twitch.ChatCleared', (response) => {
 	LimpiarChat(response.data);
 })
 
+
 // client.on('Twitch.Cheer', (response) => {
 //     CheerChat(response.data);
 // })
+
 
 client.on('Twitch.UserBanned', (response) => {
     UsuarioBaneado(response.data);
@@ -341,6 +346,7 @@ function LimpiarChat(data) {
 		listaMensajes.removeChild(listaMensajes.firstChild);
 	}
 }
+
 
 // async function CheerChat(data){
 //     console.log(data);
