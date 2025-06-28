@@ -1,8 +1,41 @@
 //PARAMETROS//
 const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
+
+
+
+
+
+const colorFondo = urlParameters.get("fondoColor") || "#000000";
+const opacity = urlParameters.get("opacidad") || 0;
+const showAvatar = obtenerBooleanos("mostarAvatar", true);
+const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
+const showUsername = obtenerBooleanos("mostrarUsuario", true);
+const showBadges = obtenerBooleanos("mostrarInsigneas", true);
+const showImages = obtenerBooleanos("mostrarImagenes", true);
+const rolUsuario = urlParameters.get("rolesId") || "4";
+const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
+let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
+ocultarDespuesDe *= 1000; 
+const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
+const destacado = obtenerBooleanos("mostrarDestacado", false);
+const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
+const showRaidMessage = obtenerBooleanos("mostrarRaids", false);
+//SUBS
+//GIFTED SUBS
+const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
+const excludeCommands = obtenerBooleanos("excluirComandos", true);
+const fuenteLetra = urlParameters.get("fuenteLetra" || "consolas");
+let fontSize = urlParameters.get("tamanoFuente") || "20";
+fontSize = parseInt(fontSize, 10);
+const ignoredUsers = urlParameters.get("usuariosIgnorados") || "DesempleadoCheems";
 const StreamerbotPort = urlParameters.get('portInput') || '8080';
 const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
+
+const PxSize = fontSize;
+const basePxSize = 16;
+const emValue = fontSize/basePxSize;
+
 const minRole = 3;
 const maxMessages = 30;
 let totalMessages = 0;
@@ -22,29 +55,6 @@ const client = new StreamerbotClient({
     }
 });
 
-const showUsername = obtenerBooleanos("mostrarUsuario", true);
-//const ocultarDespuesDe = urlParameters.get("ocultarDespues") || 0;
-const showAvatar = obtenerBooleanos("mostarAvatar", true);
-const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
-const showBadges = obtenerBooleanos("mostrarInsigneas", true);
-const showImages = obtenerBooleanos("mostrarImagenes", true);
-const rolUsuario = urlParameters.get("rolesId") || "4";
-const fontSize = urlParameters.get("tamañoFuente") || "20";
-const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
-const showHighlight = obtenerBooleanos("mostrarDestacado", false);
-const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
-const showRaidMessage = obtenerBooleanos("mostrarRaids", false);
-const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
-const excludeCommands = obtenerBooleanos("excluirComandos", true);
-const ignoredUsers = urlParameters.get("usuariosIgnorados") || "DesempleadoCheems";
-const colorFondo = urlParameters.get("fondoColor") || "#000000";
-const opacity = urlParameters.get("opacidad") || 0.75;
-const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
-let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
-const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
-
-ocultarDespuesDe *= 1000; 
-
 const body = document.body;
 const hexToRgb = (hex) => {
   const cleanHex = hex.replace("#", "");
@@ -57,7 +67,6 @@ const hexToRgb = (hex) => {
 
 const { r, g, b } = hexToRgb(colorFondo);
 body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
-body.style.fontFamily = fuenteLetra;
 
 let listaMensajes = document.getElementById("listaMensajes");
 listaMensajes.classList.add("scrollNormal");
@@ -125,6 +134,7 @@ async function MensajeChat(data) {
 
 	if (data.message.firstMessage) {
 		primerMensajeDiv.style.display = 'block';
+        primerMensajeDiv.style.fontFamily = fuenteLetra;
 		mensajeContenedorDiv.classList.add("destacarPrimerMensaje");
 	}
 
@@ -156,12 +166,13 @@ async function MensajeChat(data) {
 		usuarioDiv.innerText = usuario;
 		usuarioDiv.style.color = color;
         usuarioDiv.style.fontFamily = fuenteLetra;
+        usuarioDiv.style.fontSize = `${emValue}em`;
 	}
 
 	// Mostrar mensaje
 	mensajeDiv.innerHTML = html_encode(mensaje);
     mensajeDiv.style.fontFamily = fuenteLetra;
-    mensajeDiv.style.fontSize = fontSize;
+    mensajeDiv.style.fontSize = `${fontSize}px`;
 
 	if (usuario === "ChemitaDev") mensajeDiv.style.color = "#3BE477";
 
