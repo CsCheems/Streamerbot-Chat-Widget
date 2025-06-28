@@ -23,7 +23,7 @@ const client = new StreamerbotClient({
 });
 
 const showUsername = obtenerBooleanos("mostrarUsuario", true);
-const ocultarDespuesDe = urlParameters.get("ocultarDespues") || 0;
+//const ocultarDespuesDe = urlParameters.get("ocultarDespues") || 0;
 const showAvatar = obtenerBooleanos("mostarAvatar", true);
 const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
 const showBadges = obtenerBooleanos("mostrarInsigneas", true);
@@ -40,14 +40,14 @@ const ignoredUsers = urlParameters.get("usuariosIgnorados") || "DesempleadoCheem
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0.75;
 const fuenteLetra = urlParameters.get("fuenteLetra" || "Arial");
-let tiempoMs = urlParameters.get("tiempoMs") || 0;
+let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
 
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
 
 document.documentElement.style.fontFamily = fuenteLetra;
 document.documentElement.style.fontSize = fontSize;
 
-tiempoMs *= 1000; 
+ocultarDespuesDe *= 1000; 
 
 const body = document.body;
 const hexToRgb = (hex) => {
