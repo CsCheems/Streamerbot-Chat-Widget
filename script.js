@@ -7,7 +7,7 @@ const urlParameters = new URLSearchParams(querystring);
 
 
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
-const opacity = urlParameters.get("opacidad") || 0;
+const opacity = urlParameters.get("opacidad") || 0.75;
 const showAvatar = obtenerBooleanos("mostarAvatar", true);
 const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
 const showUsername = obtenerBooleanos("mostrarUsuario", true);
@@ -28,7 +28,7 @@ const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const fuenteLetra = urlParameters.get("fuenteLetra" || "consolas");
 let fontSize = urlParameters.get("tamanoFuente") || "20";
 fontSize = parseInt(fontSize, 10);
-const ignoredUsers = urlParameters.get("usuariosIgnorados") || "DesempleadoCheems";
+const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 const StreamerbotPort = urlParameters.get('portInput') || '8080';
 const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
 
