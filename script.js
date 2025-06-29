@@ -2,7 +2,7 @@
 const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
 
-const colorFondo = urlParameters.get("fondoColor") || "#000000";
+const colorFondo = urlParameters.get("fondoColor") || "#000";
 const opacity = urlParameters.get("opacidad") || 0.75;
 const showAvatar = obtenerBooleanos("mostarAvatar", true);
 const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
@@ -11,7 +11,7 @@ const showBadges = obtenerBooleanos("mostrarInsigneas", true);
 const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
-let ocultarDespuesDe = urlParameters.get("tiempoMs") || 10;
+let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
 ocultarDespuesDe *= 1000; 
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
 const destacado = obtenerBooleanos("mostrarDestacado", false);
@@ -22,15 +22,10 @@ const showRaidMessage = obtenerBooleanos("mostrarRaids", false);
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 const fuenteLetra = urlParameters.get("fuenteLetra" || "Consolas");
-let fontSize = urlParameters.get("tamanoFuente") || "38";
-fontSize = parseInt(fontSize, 10);
+let fontSize = urlParameters.get("tamanoFuente") || "30";
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 const StreamerbotPort = urlParameters.get('portInput') || '8080';
 const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
-
-const PxSize = fontSize;
-const basePxSize = 16;
-const emValue = fontSize/basePxSize;
 
 const minRole = 3;
 const maxMessages = 30;
@@ -51,7 +46,6 @@ const client = new StreamerbotClient({
     }
 });
 
-const body = document.body;
 const hexToRgb = (hex) => {
   const cleanHex = hex.replace("#", "");
   const bigint = parseInt(cleanHex, 16);
@@ -62,7 +56,9 @@ const hexToRgb = (hex) => {
 };
 
 const { r, g, b } = hexToRgb(colorFondo);
-body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+document.body.style.fontFamily = fuenteLetra;
+document.body.style.fontSize = `${fontSize}px`;
 
 let listaMensajes = document.getElementById("listaMensajes");
 listaMensajes.classList.add("scrollNormal");
@@ -130,7 +126,6 @@ async function MensajeChat(data) {
 
 	if (data.message.firstMessage) {
 		primerMensajeDiv.style.display = 'block';
-        primerMensajeDiv.style.fontFamily = fuenteLetra;
 		mensajeContenedorDiv.classList.add("destacarPrimerMensaje");
 	}
 
@@ -161,14 +156,11 @@ async function MensajeChat(data) {
 	if (showUsername) {
 		usuarioDiv.innerText = usuario;
 		usuarioDiv.style.color = color;
-        usuarioDiv.style.fontFamily = fuenteLetra;
-        usuarioDiv.style.fontSize = `${emValue}em`;
 	}
 
 	// Mostrar mensaje
 	mensajeDiv.innerHTML = html_encode(mensaje);
-    mensajeDiv.style.fontFamily = fuenteLetra;
-    mensajeDiv.style.fontSize = `${fontSize}px`;
+
 
 	if (usuario === "ChemitaDev") mensajeDiv.style.color = "#3BE477";
 
