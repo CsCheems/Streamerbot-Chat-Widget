@@ -2,10 +2,6 @@
 const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
 
-
-
-
-
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0.75;
 const showAvatar = obtenerBooleanos("mostarAvatar", true);
