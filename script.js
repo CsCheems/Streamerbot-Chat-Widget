@@ -333,7 +333,7 @@ async function RecompensaChat(data) {
 			setTimeout(() => {
 				listaMensajes.removeChild(siguienteMensaje);
 			}, 1000);
-		}, ocultarDespuesDe * 1000);
+		}, ocultarDespuesDe);
 	}
 }
 
