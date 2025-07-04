@@ -3,7 +3,7 @@ const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
 
 const colorFondo = urlParameters.get("fondoColor") || "#000";
-const opacity = urlParameters.get("opacidad") || 0.75;
+const opacity = urlParameters.get("opacidad") || 0;
 const showAvatar = obtenerBooleanos("mostarAvatar", true);
 const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
 const showUsername = obtenerBooleanos("mostrarUsuario", true);
@@ -11,8 +11,7 @@ const showBadges = obtenerBooleanos("mostrarInsigneas", true);
 const showImages = obtenerBooleanos("mostrarImagenes", true);
 const rolUsuario = urlParameters.get("rolesId") || "4";
 const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true); 
-let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
-ocultarDespuesDe *= 1000; 
+let ocultarDespuesDe = urlParameters.get("tiempoMs") || 10;
 const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
 const destacado = obtenerBooleanos("mostrarDestacado", false);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
@@ -28,7 +27,7 @@ const StreamerbotPort = urlParameters.get('portInput') || '8080';
 const StreamerbotAddress = urlParameters.get('hostInput') || '127.0.0.1';
 
 const minRole = 3;
-const maxMessages = 30;
+const maxMessages = 20;
 let totalMessages = 0;
 let ultimoUsuario = '';
 const avatarHashMap = new Map();
@@ -253,7 +252,7 @@ async function MensajeChat(data) {
 			setTimeout(() => {
 				listaMensajes.removeChild(siguienteMensaje);
 			}, 1000);
-		}, ocultarDespuesDe);
+		}, ocultarDespuesDe * 1000);
 	}
 }
 
@@ -333,7 +332,7 @@ async function RecompensaChat(data) {
 			setTimeout(() => {
 				listaMensajes.removeChild(siguienteMensaje);
 			}, 1000);
-		}, ocultarDespuesDe);
+		}, ocultarDespuesDe * 1000);
 	}
 }
 
